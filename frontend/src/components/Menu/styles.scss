@@ -1,0 +1,8 @@
+header {
+    .navbar {
+        @apply px-10 py-4;
+        .nav-link {
+            @apply text-white #{!important};
+        }
+    }
+}

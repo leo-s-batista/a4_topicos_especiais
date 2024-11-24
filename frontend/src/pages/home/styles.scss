@@ -1,0 +1,8 @@
+.home {
+    @apply p-10 grid gap-y-6 content-start;
+    &--card {
+        .card-text {
+            @apply pb-4;
+        }
+    }
+}

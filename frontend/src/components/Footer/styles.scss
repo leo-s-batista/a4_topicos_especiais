@@ -1,0 +1,7 @@
+.footer {
+    @apply select-none bg-green-primary py-6 grid justify-center justify-items-center gap-y-4;
+    &--author {
+        @apply grid text-center text-white;
+        &__row {}
+    }
+}

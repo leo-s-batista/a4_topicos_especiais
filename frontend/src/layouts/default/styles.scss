@@ -1,0 +1,15 @@
+.default {
+    @apply grid min-h-screen;
+    grid-template-rows: auto 1fr auto;
+    &--page {
+        @apply p-10;
+    }
+}
+
+.btn-primary {
+    @apply bg-green-primary outline-none border-none;
+
+    &:hover {
+        @apply bg-green-secondary;
+    }
+}

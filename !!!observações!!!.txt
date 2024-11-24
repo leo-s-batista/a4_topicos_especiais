@@ -1,0 +1,26 @@
+Boa noite professor, tudo bem ??
+
+- Alunos:
+
+Nome: Leonardo de Souza Batista - RA: 9332323844 (Agendar Consulta)
+Nome: Kayann Gabriel Justino Uoya - RA: 9332111006 (Cancelar Consulta)
+
+
+Aaaah, seguem algumas observações que vão ajudar a fazer o setup do projeto :)
+
+- Observações
+
+1. Criar banco de dados `a4_topicos_especiais`
+
+2. Executar os comandos necessários para fazer o setup:
+
+- npm install
+- npm run db // cria as tabelas
+- npm run start // inicia o servidor
+
+
+!!! Importante !!!
+
+Requisições do tipo post esperam um JSON como conteúdo.
+
+* Caso use POSTMAN, o arquivo contendo a coleção de requisições é: /a4_topicos_especiais.postman_collection.JSON

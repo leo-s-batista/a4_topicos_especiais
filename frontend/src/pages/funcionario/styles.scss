@@ -1,0 +1,17 @@
+.funcionarios {
+    @apply pt-8 mx-auto w-4/5 lg:w-3/5;
+    &--header {
+        @apply flex items-center gap-x-4 pb-8;
+        &__title {
+            @apply text-3xl leading-none;
+        }
+        &__new {
+            @apply bg-green-primary rounded-lg text-white flex items-center justify-center cursor-pointer;
+            height: 28px;
+            aspect-ratio: 1;
+        }
+    }
+}
+.funcionario {
+    @apply pt-8 mx-auto w-4/5 lg:w-3/5;
+}
