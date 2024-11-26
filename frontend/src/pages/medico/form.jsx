@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { api } from '../../axios.js';
 import { ErrorView } from './error.jsx';
 import { useNavigate } from 'react-router-dom';
+import sha256 from 'crypto-js/sha256';
 
 import './styles.scss';
 
@@ -26,6 +27,7 @@ export function FormularioMedico() {
 
     const [tiposConsulta, setTiposConsulta] = useState([]);
     const [selectedTiposConsulta, setSelectedTiposConsulta] = useState([]);
+    const [medico, setMedico] = useState(null);
 
 
     useEffect(() => {
@@ -48,13 +50,15 @@ export function FormularioMedico() {
                     if (response.data) {
                         const medico = response.data;
 
+                        setMedico(medico);
+
                         setFormValues({
                             nome: medico.nome || '',
                             email: medico.email || '',
                             cpf: medico.cpf || '',
                             crm: medico.crm || '',
                             rqe: medico.rqe || '',
-                            senha: medico.senha || '',
+                            senha: '',
                         });
 
 
@@ -82,8 +86,19 @@ export function FormularioMedico() {
         event.preventDefault();
 
         if (form.checkValidity()) {
+
+            let senha = ''
+
+            if (formValues.senha !== '') {
+                senha = sha256(formValues.senha).toString();
+            } else if (medico) {
+                senha = medico.senha
+            }
+
+            const data = { ...formValues, senha }
+
             const payload = {
-                ...formValues,
+                ...data,
                 tiposConsulta: selectedTiposConsulta.map((tipo) => tipo.value),
             };
 
@@ -170,7 +185,6 @@ export function FormularioMedico() {
                 <Form.Group>
                     <Form.Label>Senha <span className="mandatory">*</span></Form.Label>
                     <Form.Control
-                        required
                         type="password"
                         value={formValues.senha}
                         onChange={(e) => setFormValues({ ...formValues, senha: e.target.value })}

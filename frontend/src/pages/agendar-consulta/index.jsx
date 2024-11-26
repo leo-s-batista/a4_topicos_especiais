@@ -3,7 +3,9 @@ import Select from 'react-select';
 import { Button, Form } from 'react-bootstrap';
 import { api } from '../../axios.js';
 import { useNavigate } from 'react-router-dom';
-import slugify from 'react-slugify';
+import { jwtDecode } from 'jwt-decode';
+
+import './styles.scss';
 
 export function AgendarConsulta() {
     const navigate = useNavigate();
@@ -24,8 +26,16 @@ export function AgendarConsulta() {
         retorno: false,
         motivoConsulta: '',
     });
+    const [user, setUser] = useState([]);
 
     useEffect(() => {
+
+        const token = localStorage.getItem('token')
+        const user = jwtDecode(token);
+
+        if (user) {
+            setUser(user);
+        }
         api.get('/paciente')
             .then((response) => {
                 const formattedPacientes = response.data.map((p) => ({
@@ -122,15 +132,12 @@ export function AgendarConsulta() {
     };
 
     const handleAgendar = () => {
-        // const payload = {
-        //     pacienteId: formValues.paciente,
-        //     motivoConsulta: formValues.motivoConsulta,
-        //     tipoConsultaId: formValues.tipoConsulta,
-        //     medicoId: formValues.medico,
-        //     data: `${formValues.data}T${formValues.horario}`,
-        //     retorno: formValues.retorno,
-        //     funcionarioId: 1
-        // };
+
+        let funcionarioId = null
+
+        if (user.funcao != 2) {
+            funcionarioId = user.id
+        }
 
         const payload = {
             pacienteId: formValues.paciente,
@@ -138,7 +145,7 @@ export function AgendarConsulta() {
             retorno: formValues.retorno,
             motivoConsulta: formValues.motivoConsulta,
             data: `${formValues.data} ${formValues.horario}`,
-            funcionarioId: 1,
+            funcionarioId,
             medicoId: formValues.medico
         }
 

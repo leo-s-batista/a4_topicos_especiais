@@ -11,6 +11,8 @@ export function Funcionario() {
     const [nome, setNome] = useState('');
     const [funcionarios, setFuncionarios] = useState([]);
     const navigate = useNavigate();
+    const summaryRoles = ['funcionario', 'admin', 'medico'];
+
 
     useEffect(() => {
         api.get('/funcionario').then((response) => {
@@ -81,7 +83,7 @@ export function Funcionario() {
                         <tr key={funcionario.id}>
                             <td>{funcionario.id}</td>
                             <td>{funcionario.nome}</td>
-                            <td>{funcionario.funcao}</td>
+                            <td>{summaryRoles[funcionario.funcao]}</td>
                             <td>{funcionario.email}</td>
                             <td>
                                 <Button variant="success" onClick={() => handleEdit(funcionario.id, funcionario.nome)} className="me-2">

@@ -1,0 +1,6 @@
+.cancelar--agendamento {
+    @apply py-8 mx-auto w-4/5 lg:w-3/5;
+    &__title {
+        @apply text-xl uppercase font-semibold pb-6;
+    }
+}

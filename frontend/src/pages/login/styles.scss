@@ -1,0 +1,10 @@
+.login {
+    &--form {
+        @apply py-10 grid gap-y-6 mx-auto;
+        width: 500px;
+        &__input {
+            @apply w-full;
+        }
+        &__button {}
+    }
+}

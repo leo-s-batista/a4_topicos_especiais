@@ -14,4 +14,14 @@
 }
 .paciente {
     @apply pt-8 mx-auto w-4/5 lg:w-3/5;
+
+    &--header {
+        &__title {
+            @apply  uppercase font-bold pb-2;
+        }
+    }
+
+    .paciente--agendamentos {
+        @apply pb-6;
+    }
 }

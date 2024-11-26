@@ -2,11 +2,16 @@ import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { Button, Form } from 'react-bootstrap';
 import { api } from '../../axios.js';
+import { jwtDecode } from 'jwt-decode';
+
+import './styles.scss';
+
 
 export function CancelarConsulta() {
     const [step, setStep] = useState(1);
     const [pacientes, setPacientes] = useState([]);
     const [agendamentos, setAgendamentos] = useState([]);
+    const [user, setUser] = useState([]);
 
     const [formValues, setFormValues] = useState({
         paciente: '',
@@ -15,6 +20,12 @@ export function CancelarConsulta() {
     });
 
     useEffect(() => {
+        const token = localStorage.getItem('token')
+        const user = jwtDecode(token);
+
+        if (user) {
+            setUser(user);
+        }
         api.get('/paciente')
             .then((response) => {
                 const formattedPacientes = response.data.map((p) => ({
@@ -59,9 +70,12 @@ export function CancelarConsulta() {
     };
 
     const handleCancelar = () => {
+
+        let funcionarioId = user.id
+
         const payload = {
             agendamentoId: formValues.agendamento,
-            funcionarioId: 1,
+            funcionarioId,
             motivo: formValues.motivo,
         };
 

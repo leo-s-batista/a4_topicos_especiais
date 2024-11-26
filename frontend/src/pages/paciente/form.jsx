@@ -14,6 +14,7 @@ export function FormularioPaciente() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(false);
   const [validated, setValidated] = useState(false);
+  const [agendamentos, setAgendamentos] = useState([]);
   const [formValues, setFormValues] = useState({
     nome: '',
     email: '',
@@ -49,6 +50,18 @@ export function FormularioPaciente() {
       }).catch((error) => {
         console.error('Erro ao buscar dados do paciente:', error);
       });
+
+      api.get(`/agendamento/paciente/${id}`)
+        .then((response) => {
+          const formattedAgendamentos = response.data.map((a) => ({
+            value: a.id,
+            label: `${new Date(a.data).toLocaleString('pt-BR')} - ${a.nomeTipoConsulta} - ${a.nomeMedico}`,
+          }));
+          setAgendamentos(formattedAgendamentos);
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar agendamentos:', error);
+        });
     }
   }, [id]);
 
@@ -78,6 +91,22 @@ export function FormularioPaciente() {
   return (
     sent && error ? <ErrorView /> :
       <div className="paciente">
+
+        {agendamentos.length > 0 && (<>
+          <div className="paciente--header">
+            <div className="paciente--header__title">
+              Agendamentos
+            </div>
+          </div>
+          <div className="paciente--agendamentos">
+            {agendamentos.map((agendamento) => (
+              <div key={agendamento.value} className="paciente--agendamento">
+                {agendamento.label}
+              </div>
+            ))}
+          </div>
+        </>)}
+
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group>
             <Form.Label>Nome <span className="mandatory">*</span></Form.Label>

@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { api } from '../../axios.js';
 import { useNavigate } from 'react-router-dom';
+import sha256 from 'crypto-js/sha256';
+
 
 import './styles.scss';
 
@@ -18,18 +20,20 @@ export function FormularioFuncionario() {
         senha: '',
         avatar: '',
     });
+    const [funcionario, setFuncionario] = useState(null);
 
     useEffect(() => {
         if (id) {
             api.get(`/funcionario/${id}`).then((response) => {
                 if (response.data) {
                     const funcionario = response.data;
+                    setFuncionario(funcionario);
 
                     setFormValues({
                         nome: funcionario.nome || '',
-                        funcao: funcionario.funcao || '',
+                        funcao: '' + funcionario.funcao,
                         email: funcionario.email || '',
-                        senha: funcionario.senha || '',
+                        senha: '',
                         avatar: funcionario.avatar || ''
                     });
                 }
@@ -45,8 +49,17 @@ export function FormularioFuncionario() {
         setValidated(true);
 
         if (form.checkValidity()) {
+
+            let senha = ''
+
+            if (formValues.senha !== '') {
+                senha = sha256(formValues.senha).toString();
+            } else if (funcionario) {
+                senha = funcionario.senha
+            }
+
             const request = id
-                ? api.put(`/funcionario/${id}`, formValues)
+                ? api.put(`/funcionario/${id}`, { ...formValues, senha })
                 : api.post('/funcionario', formValues);
 
             request.then(() => {
@@ -70,13 +83,16 @@ export function FormularioFuncionario() {
                     />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Função <span className="mandatory">*</span></Form.Label>
+                    <Form.Label>Função</Form.Label>
                     <Form.Control
+                        as="select"
                         required
-                        type="text"
                         value={formValues.funcao}
                         onChange={(e) => setFormValues({ ...formValues, funcao: e.target.value })}
-                    />
+                    >
+                        <option value="0">Funcionário</option>
+                        <option value="1">Admin</option>
+                    </Form.Control>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Email <span className="mandatory">*</span></Form.Label>
@@ -88,20 +104,11 @@ export function FormularioFuncionario() {
                     />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Senha <span className="mandatory">*</span></Form.Label>
+                    <Form.Label>Senha</Form.Label>
                     <Form.Control
-                        required
                         type="password"
                         value={formValues.senha}
                         onChange={(e) => setFormValues({ ...formValues, senha: e.target.value })}
-                    />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Avatar</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={formValues.avatar}
-                        onChange={(e) => setFormValues({ ...formValues, avatar: e.target.value })}
                     />
                 </Form.Group>
                 <div className="flex justify-center pt-6 pb-12">
