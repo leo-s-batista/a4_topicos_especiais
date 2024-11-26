@@ -46,9 +46,6 @@ export default class MedicoController {
                 MedicoDB.addTipoConsulta(medico.id, tipoConsulta.id);
             }
         }
-
-        console.log('tiposConsulta:', tiposConsulta);
-
         return MedicoDB.update(medico);
     }
 

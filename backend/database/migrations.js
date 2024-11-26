@@ -3,7 +3,6 @@ import Connect from "./Database.js";
 async function executeQuery(sql) {
     const conn = await Connect();
     await conn.query(sql);
-    console.log(`Query executed successfully: ${sql}`);
 }
 
 async function createMedico() {
@@ -14,7 +13,7 @@ async function createMedico() {
         crm VARCHAR(20) NOT NULL,
         rqe VARCHAR(20) NULL,
         email VARCHAR(75) NOT NULL,
-        senha VARCHAR(45) NOT NULL,
+        senha VARCHAR(255) NOT NULL,
         PRIMARY KEY (id),
         UNIQUE INDEX crm_UNIQUE (crm ASC),
         UNIQUE INDEX email_UNIQUE (email ASC)
@@ -28,7 +27,7 @@ async function createFuncionario() {
         nome VARCHAR(70) NOT NULL,
         funcao INT NOT NULL COMMENT '"recepcionista", "administrador", "diretor"',
         email VARCHAR(75) NOT NULL,
-        senha VARCHAR(45) NOT NULL,
+        senha VARCHAR(255) NOT NULL,
         avatar VARCHAR(100) NULL,
         PRIMARY KEY (id)
     ) ENGINE = InnoDB;`;

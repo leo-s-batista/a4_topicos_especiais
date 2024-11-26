@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express';
 import cors from 'cors';
 import PacienteController from './controllers/PacienteController.js';
@@ -7,6 +8,7 @@ import SalaController from './controllers/SalaController.js';
 import TipoConsultaController from './controllers/TipoConsultaController.js';
 import DiasSemanaController from './controllers/DiasSemanaController.js';
 import AgendamentoController from './controllers/AgendamentoController.js';
+import LoginController from './controllers/LoginController.js';
 
 
 const app = express();
@@ -346,9 +348,17 @@ api.post('/cancelar-agendamento', (req, res) => {
     const { agendamentoId, funcionarioId, motivo, } = req.body;
 
     AgendamentoController.cancelarAgendamento(agendamentoId, motivo, funcionarioId)
-        .then(() => res.status(200).json({ message: 'Agendamento cancelado com sucesso!' }))
+        .then(() => res.json({ message: 'Agendamento cancelado com sucesso!' }))
         .catch((error) => res.status(500).json({ error: error.message }));
 });
+
+api.post('/login', (req, res) => {
+    const { email, senha } = req.body;
+
+    LoginController.login(email, senha)
+        .then((result) => res.json(result))
+        .catch((error) => res.status(401).json({ error: error.message }));
+})
 
 
 app.use('/api', api);

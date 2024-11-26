@@ -74,7 +74,7 @@ export default class AgendamentoDB {
             const conn = await Connect();
 
             const [result] = await conn.query(sql, values);
-            return result.insertId; // Retorna o ID do agendamento criado
+            return result.insertId;
         } else {
             throw new Error('O objeto fornecido não é uma instância de Agendamento.');
         }
@@ -126,7 +126,7 @@ export default class AgendamentoDB {
             horaAtual = novaHora.toTimeString().slice(0, 5);
         }
 
-        // Verificar horários já ocupados na tabela agendamento
+
         const [agendamentos] = await conn.query(
             `
             SELECT TIME(data) AS horario, TIME(DATE_ADD(data, INTERVAL tc.duracao MINUTE)) AS horario_fim
@@ -137,13 +137,13 @@ export default class AgendamentoDB {
             [data, medicoId]
         );
 
-        // Criar um conjunto de intervalos ocupados
+
         const intervalosOcupados = agendamentos.map((row) => ({
             inicio: row.horario,
             fim: row.horario_fim,
         }));
 
-        // Filtrar horários disponíveis
+
         const horariosDisponiveis = horarios.filter((horario) => {
             const [hora, minutos] = horario.split(":").map(Number);
             const horarioInicio = new Date(0, 0, 0, hora, minutos);
@@ -155,7 +155,7 @@ export default class AgendamentoDB {
                 minutos + duracaoTipoConsulta
             );
 
-            // Verificar se o horário interfere com qualquer intervalo ocupado
+
             return !intervalosOcupados.some((intervalo) => {
                 const intervaloInicio = new Date(
                     0,
