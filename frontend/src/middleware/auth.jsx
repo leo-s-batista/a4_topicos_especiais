@@ -14,6 +14,11 @@ const RouteMiddleware = ({ children, roles = [] }) => {
         const userRole = summaryRoles[decodedToken.funcao];
         const currentTime = Date.now() / 1000;
 
+        console.log({
+            token,
+            decodedToken
+        });
+
         if (decodedToken.exp < currentTime) {
             localStorage.removeItem('token');
             return <Navigate to="/login" />;
