@@ -2,8 +2,12 @@ Boa noite professor, tudo bem ??
 
 - Alunos:
 
-Nome: Leonardo de Souza Batista - RA: 9332323844 (Agendar Consulta)
-Nome: Kayann Gabriel Justino Uoya - RA: 9332111006 (Cancelar Consulta)
+Nome: Leonardo de Souza Batista - RA: 9332323844 (Agendar Consulta + Tipos de Consulta)
+Nome: Kayann Gabriel Justino Uoya - RA: 9332111006 (Cancelar Consulta + Salas + Funcionario)
+
+Então, acabamos notando a necessidade de implementar SOFT DELETE apenas no final do projeto, portanto as funções de DELETE podem reproduzir um erro de chave estrangeira. Isso será corrigido para o trabalho final!!!
+
+Faltou ajustar a sala na lista dos tipos de consulta (aprensetando id ao invés do nome).
 
 
 Aaaah, seguem algumas observações que vão ajudar a fazer o setup do projeto :)
@@ -15,12 +19,17 @@ Aaaah, seguem algumas observações que vão ajudar a fazer o setup do projeto :
 2. Executar os comandos necessários para fazer o setup:
 
 - npm install
-- npm run db // cria as tabelas
-- npm run start // inicia o servidor
+- npm run db // cria as tabelas & popula banco
+- npm run start // inicia o servidor & frontend
 
 
 !!! Importante !!!
 
-Requisições do tipo post esperam um JSON como conteúdo.
+- Usuários (Funcionario ou Médico)
 
-* Caso use POSTMAN, o arquivo contendo a coleção de requisições é: /a4_topicos_especiais.postman_collection.JSON
+Se Funcionario: admin ou funcionario (funcionario tem acesso apenas as funções fundamentais e CRUD pacientes)
+Se Médico: acesso a Agendar Consulta + CRUD pacientes
+
+Funcionario Administrador: email: admin@unoeste.br, senha: admin
+Funcionario: email: recepcionista@unoeste.br, senha: recepcionista
+Médico: email: gabriela.freire@unoeste.br, senha: gabi123

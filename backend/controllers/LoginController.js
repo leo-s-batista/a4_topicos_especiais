@@ -9,11 +9,11 @@ export default class LoginController {
         if (user) {
             delete user.senha
 
-            if (user.funcao && user.funcao !== 0 && user.funcao !== 1) {
+            if (typeof user.funcao === 'undefined') {
                 user.funcao = 2
             }
 
-            const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '60s' })
+            const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1hr' })
 
             return token;
         } else {
